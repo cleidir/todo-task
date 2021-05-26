@@ -1,10 +1,7 @@
 package com.bravi.todo.task.web.rest.dtos;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import com.bravi.todo.task.domain.model.Comment;
 import com.bravi.todo.task.domain.model.TodoTask;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -17,7 +14,6 @@ public class TodoTaskUpdateDTO {
 	private Date startDate;
 	private Date finishDate;
 	private boolean isDone;
-	private List<CommentInsertDTO> comments;
 
 	public Long getId() {
 		return id;
@@ -67,31 +63,12 @@ public class TodoTaskUpdateDTO {
 		this.isDone = isDone;
 	}
 
-	public List<CommentInsertDTO> getComments() {
-		return comments == null ? new ArrayList<CommentInsertDTO>() : comments;
-	}
-
-	public void setComments(List<CommentInsertDTO> comments) {
-		this.comments = comments;
-	}
-	
 	public TodoTask toEntity() {
 		TodoTask task = new TodoTask();
 		task.setDescription(this.getDescription()); 
 		task.setDone(this.isDone()); 
 		task.setFinishDate(this.getFinishDate()); 
 		task.setStartDate(this.getStartDate());
-		addComments(task);
 		return task;
-	}
-
-	private void addComments(TodoTask task) {
-		for(CommentInsertDTO commentInsertDTO : this.getComments()) {
-			Comment comment = new Comment();
-			comment.setCreatedDate(commentInsertDTO.getCreatedDate());
-			comment.setDescription(commentInsertDTO.getDescription());
-			comment.setIdTodoTask(commentInsertDTO.getIdTodoTask());
-			task.getComments().add(comment);
-		}
 	}
 }
