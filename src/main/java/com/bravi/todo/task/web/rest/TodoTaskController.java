@@ -25,7 +25,7 @@ public class TodoTaskController {
 	@Autowired
 	private TodoTaskService todoTaskService;
 	
-	@PostMapping("/api/todoItems")
+	@PostMapping("/api/todoTasks")
 	public ResponseEntity<Long> insert(@RequestBody TodoTaskInsertDTO todoTaskItemInsertDTO) {
 		Long id = todoTaskService.insert(todoTaskItemInsertDTO.toEntity());
 		if(id == null) {
@@ -34,19 +34,19 @@ public class TodoTaskController {
 		return ResponseEntity.ok(id);
 	}
 	
-	@GetMapping("/api/todoItems/{id}")
+	@GetMapping("/api/todoTasks/{id}")
 	public ResponseEntity<?> getOne(@PathVariable("id") Long id) {
 		return Optional.ofNullable(todoTaskService.findOne(id)).map(ResponseEntity::ok)
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
-	@GetMapping("/api/todoItems")
+	@GetMapping("/api/todoTasks")
 	public ResponseEntity<?> getList() {
 		return Optional.ofNullable(todoTaskService.findAll()).map(ResponseEntity::ok)
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
-	@PatchMapping("/api/todoItems/{id}/")
+	@PatchMapping("/api/todoTasks/{id}/")
 	public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody TodoTaskUpdateDTO todoTaskUpdateDTO) {
 		TodoTask todoTask = todoTaskService.findOne(id);
 		if (todoTask == null) {
@@ -58,7 +58,7 @@ public class TodoTaskController {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@DeleteMapping("/api/todoItems/{id}")
+	@DeleteMapping("/api/todoTasks/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
 		TodoTask todoTask = todoTaskService.findOne(id);
 		if (todoTask == null) {
